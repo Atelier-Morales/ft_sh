@@ -6,7 +6,7 @@
 /*   By: fmorales <fernan.moralesayuso@gmail>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/26 21:19:47 by fmorales          #+#    #+#             */
-/*   Updated: 2014/01/26 21:37:02 by fmorales         ###   ########.fr       */
+/*   Updated: 2014/01/27 21:49:37 by fmorales         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <signal.h>
 #include <unistd.h>
+#include <stdio.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <sys/wait.h>
@@ -70,7 +71,7 @@ void		addnode(t_list **s, char **name)
 		addnode(&((*s)->next), name);
 }
 
-void		stock_cmd(t_list **s, char *data, t_env e)
+int			stock_cmd(t_list **s, char *data, pid_t *father, t_env e)
 {
 	int		i;
 	char	**str;
@@ -79,7 +80,9 @@ void		stock_cmd(t_list **s, char *data, t_env e)
 	str = NULL;
 	str2 = NULL;
 	print_prompt(e);
-	get_next_line(0, &data);
+	i = get_next_line(0, &data);
+	if (i == 0)
+		kill(*father, SIGQUIT);
 	str = ft_strsplit(data, ';');
 	i = 0;
 	while (str[i])
@@ -89,4 +92,5 @@ void		stock_cmd(t_list **s, char *data, t_env e)
 		free_tab(str2);
 		++i;
 	}
+	return (1);
 }

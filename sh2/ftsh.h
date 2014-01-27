@@ -6,7 +6,7 @@
 /*   By: fmorales <fernan.moralesayuso@gmail>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/12/26 09:44:06 by fmorales          #+#    #+#             */
-/*   Updated: 2014/01/26 21:23:39 by fmorales         ###   ########.fr       */
+/*   Updated: 2014/01/27 19:56:48 by fmorales         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct		s_env
 	int				m;
 	pid_t			father;
 	char			*data;
+	char			*caca;
 	char			*cmd1;
 	char			*cmd;
 	char			**var;
@@ -75,7 +76,7 @@ void				start_child(char **av, int *fds, t_env *e);
 int					check_pipe(char **str);
 char				**trim2(char **str);
 char				**trim(char **str);
-void				stock_cmd(t_list **s, char *data, t_env e);
+int					stock_cmd(t_list **s, char *data, pid_t *father, t_env e);
 void				addnode(t_list **s, char **name);
 int					check_builtin(char **var, pid_t father);
 int					count_str(char **tab);

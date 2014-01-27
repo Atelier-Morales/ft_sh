@@ -6,13 +6,14 @@
 /*   By: fmorales <fernan.moralesayuso@gmail>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/12/24 15:45:26 by fmorales          #+#    #+#             */
-/*   Updated: 2014/01/26 21:50:17 by fmorales         ###   ########.fr       */
+/*   Updated: 2014/01/27 21:50:17 by fmorales         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
 #include <stdlib.h>
 #include <signal.h>
+#include <termios.h>
 #include <unistd.h>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -56,7 +57,7 @@ int			main(void)
 		e.father = fork();
 		if (e.father == 0)
 		{
-			stock_cmd(&e.lst, e.data, e);
+			stock_cmd(&e.lst, e.data, &e.father, e);
 			while (e.lst != NULL)
 			{
 				if (check_builtin(e.lst->content, e.father))
@@ -68,7 +69,7 @@ int			main(void)
 		}
 		else
 			if ((waitpid(e.father, &e.status, 0) != e.father))
-				e.status = -1;
+				e.process = 0;
 	}
 	return (e.status);
 }
